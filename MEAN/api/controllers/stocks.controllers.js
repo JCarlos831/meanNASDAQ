@@ -1,14 +1,13 @@
 var dbconn = require('../data/dbconnection.js');
+var ObjectId = require('mongodb').ObjectId;
 var stockData = require('../data/nasdaqCompanyList.json');
 
 module.exports.stocksGetAll = function(req, res){
     
     var db = dbconn.get();
+    var collection = db.collection('stocks');
     
-    console.log("GET the stocks");
-    console.log(req.query);
-    
-    var offset = 5;
+    var offset = 0;
     var count = 5;
     
     if(req.query && req.query.offset){
@@ -17,23 +16,34 @@ module.exports.stocksGetAll = function(req, res){
     
     if(req.query && req.query.count){
         count = parseInt(req.query.count, 10);
-    }        
+    } 
     
-    var returnData = stockData.slice(offset,offset+count);
-    
-    res
-        .status(200)
-        .json( returnData );  
+    collection
+        .find()
+        .skip(offset)
+        .limit(count)
+        .toArray(function(err, docs){
+            console.log("Found stocks", docs);
+        res
+            .status(200)
+            .json(docs);
+        });
 };
 
 module.exports.stocksGetOne = function(req, res){
     
     var db = dbconn.get();
+    var collection = db.collection('stocks');
 
     var stockId = req.params.stockId;
-    var thisStock = stockData[stockId];
         console.log("GET stockId", stockId);
-        res
-            .status(200)
-            .json( thisStock );  
+        
+        collection
+            .findOne({
+                _id : ObjectId(stockId)
+            }, function(err, doc){
+                res
+                    .status(200)
+                    .json( doc );
+            });
 };
