@@ -1,14 +1,11 @@
-var dbconn = require('../data/dbconnection.js');
-var ObjectId = require('mongodb').ObjectId;
-var stockData = require('../data/nasdaqCompanyList.json');
+var mongoose = require('mongoose');
+var Stock = mongoose.model('Stock');
 
 module.exports.stocksGetAll = function(req, res){
     
-    var db = dbconn.get();
-    var collection = db.collection('stocks');
-    
     var offset = 0;
     var count = 5;
+    var maxCount = 10;
     
     if(req.query && req.query.offset){
         offset = parseInt(req.query.offset, 10);
@@ -18,32 +15,66 @@ module.exports.stocksGetAll = function(req, res){
         count = parseInt(req.query.count, 10);
     } 
     
-    collection
+    if(isNaN(offset)  || isNaN(count)){
+        res
+            .status(400)
+            .json({
+                "message" : "If supplied in querystring count and offset should be numbers"
+                });
+        return;
+    }
+    
+    if(count > maxCount){
+        res
+            .status(400)
+            .json({
+                "message" : "Count limit of " + maxCount + " exceeded."
+            });
+        return;
+    }
+    
+    Stock
         .find()
         .skip(offset)
         .limit(count)
-        .toArray(function(err, docs){
-            console.log("Found stocks", docs);
-        res
-            .status(200)
-            .json(docs);
+        .exec(function(err, stocks){
+            if(err){
+                console.log("Error finding stocks");
+                res
+                    .status(500)
+                    .json(err);
+            } else {
+                console.log("Found stocks", stocks.length);
+                res
+                    .json(stocks);
+            }
+
         });
 };
 
 module.exports.stocksGetOne = function(req, res){
-    
-    var db = dbconn.get();
-    var collection = db.collection('stocks');
-
     var stockId = req.params.stockId;
         console.log("GET stockId", stockId);
         
-        collection
-            .findOne({
-                _id : ObjectId(stockId)
-            }, function(err, doc){
+        Stock
+            .findById(stockId)
+            .exec(function(err, doc){
+                var response = {
+                    status : 200,
+                    message : doc
+                };
+                if(err){
+                    console.log("Error finding stock");
+                    response.status = 500;
+                    response.message = err;
+                } else if(!doc){
+                    response.status = 404;
+                    response.message = {
+                        "message" : "Stock ID is not found"
+                    };
+                }
                 res
-                    .status(200)
-                    .json( doc );
+                    .status(response.status)
+                    .json(response.message);
             });
 };
