@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="meannasdaq">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,8 @@
     <title>MEAN NASDAQ</title>
 </head>
 <body>
-    <h1>MEAN NASDAQ Homepage</h1>
+    
+    <div ng-view></div>
     
     <footer class='footer'>
         <div class='container'>
@@ -17,11 +18,15 @@
                 <a href='https://www.nasdaq.com' target='_blank'><img src='images/Nasdaq-logo-2014.png' height='106' alt='NASDAQ Logo' /></a>&copy; 2018 Juan Montoya
             </p>
             <!--<p class='text-muted text-center'>-->
-            <!--    <small>&copy; 2018 Juan Montoya</small>-->
+            <!--<small>&copy; 2018 Juan Montoya</small>-->
             <!--</p>-->
         </div>
     </footer>
     
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/angular-route/angular-route.js"></script>
+    <script src="angular-app/app.js"></script>
+    <script src="angular-app/stock-list/stock-list-controller.js"></script>
 </body>
 </html>
