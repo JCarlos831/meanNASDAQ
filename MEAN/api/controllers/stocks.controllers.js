@@ -2,7 +2,9 @@ var mongoose = require('mongoose');
 var Stock = mongoose.model('Stock');
 
 module.exports.stocksGetAll = function(req, res){
-    
+    console.log('Request by: ' + req.user);
+    console.log('GET the stocks');
+    console.log(req.query);
     var offset = 0;
     var count = 5;
     var maxCount = 10;

@@ -7,7 +7,7 @@ var ctrlUsers = require('../controllers/users.controllers.js');
 // Stock routes
 router
     .route('/stocks')
-    .get(ctrlStocks.stocksGetAll);
+    .get(ctrlUsers.authenticate, ctrlStocks.stocksGetAll);
     
 router
     .route('/stocks/:stockId')
