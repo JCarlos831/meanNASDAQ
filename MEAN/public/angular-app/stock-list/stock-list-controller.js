@@ -1,9 +1,9 @@
 angular.module('meannasdaq').controller('StocksController', StocksController)
 
-function StocksController($http) {
+function StocksController(stockDataFactory) {
     var vm = this;
     vm.title = "MEAN NASDAQ App";
-    $http.get('/api/stocks').then(function(response) {
+    stockDataFactory.stockList().then(function(response) {
         // console.log(response);
         vm.stocks = response.data;
     });

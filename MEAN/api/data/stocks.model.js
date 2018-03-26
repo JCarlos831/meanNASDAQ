@@ -19,7 +19,6 @@ var stockSchema = new mongoose.Schema({
     },
     ipoYear : {
         type : Number,
-        required : true
         },
     sector : {
         type : String,
