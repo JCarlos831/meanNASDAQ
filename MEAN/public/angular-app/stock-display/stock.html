@@ -1,8 +1,10 @@
 <h1>Information on {{ vm.stock.name }}</h1>
-<p>Symbol : {{ vm.stock.symbol }}</p>
-<p>Last Sale : {{ vm.stock.lastSale }}</p>
-<p>Market Cap : {{ vm.stock.marketCap }}</p>
-<p>IPO Year : {{ vm.stock.ipoYear }}</p>
-<p>Sector : {{ vm.stock.sector }}</p>
-<p>Industry : {{ vm.stock.industry }}</p>
-<p>Sumamry Quote : {{ vm.stock.summaryQuote }}</p>
+<h3>Symbol : {{ vm.stock.symbol }}</h3>
+<h3>Last Sale : {{ vm.stock.lastSale }}</h3>
+<h3>Market Cap : {{ vm.stock.marketCap }}</h3>
+<h3>IPO Year : {{ vm.stock.ipoYear }}</h3>
+<h3>Sector : {{ vm.stock.sector }}</h3>
+<h3>Industry : {{ vm.stock.industry }}</h3>
+<h3>Sumamry Quote : <a ng-href='{{ vm.stock.summaryQuote }}'>{{ vm.stock.summaryQuote }}</a></h3>
+</br>
+<p><a ng-href="https://careerdevs-jcm2017-juancmontoya.c9users.io/#!/">Back to Home</a></p>
